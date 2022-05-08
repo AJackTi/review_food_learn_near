@@ -14,6 +14,8 @@
 
 import {Context, logging, storage, PersistentMap} from 'near-sdk-as'
 
+import {Food, Account, Review} from "./models";
+
 const DEFAULT_MESSAGE = 'Hello'
 let mapAccountFoods = new PersistentMap<string, Array<string>>("m") // account: []foods
 let mapFoodAccounts = new PersistentMap<string, Array<string>>("m") // food: []accounts
@@ -40,10 +42,10 @@ export function setGreeting(message: string): void {
 export function setReview(message: string, food: string): void {
     const accountId = Context.sender
 
-    if(mapFoodAccounts != null) {
+    if (mapFoodAccounts != null) {
         let accountsExist = mapFoodAccounts.get(food)
         if (accountsExist != null && accountsExist.length > 0) {
-            for(let i = 0; i < accountsExist.length; i++) {
+            for (let i = 0; i < accountsExist.length; i++) {
                 if (accountsExist[i] == accountId) {
                     logging.log(`The account "${accountId}" has reviewed ${food}"`)
                     return
